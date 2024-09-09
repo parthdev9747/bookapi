@@ -6,10 +6,10 @@ const app = express();
 
 app.use(express.json());
 
-//Error handling global
-app.use(errorHandler);
-
 //Routes
 app.use('/api/users', userRouter);
+
+//Error handling global
+app.use(errorHandler);
 
 export default app;
