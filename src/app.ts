@@ -1,15 +1,15 @@
-import express, { Response, Request, NextFunction } from 'express';
-import createHttpError, { HttpError } from 'http-errors';
+import express from 'express';
 import errorHandler from './middlewares/globalErrorHandler';
+import userRouter from './user/userRouter';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  const error = createHttpError(400, 'something bad happened');
-  throw error;
-});
+app.use(express.json());
 
 //Error handling global
 app.use(errorHandler);
+
+//Routes
+app.use('/api/users', userRouter);
 
 export default app;
