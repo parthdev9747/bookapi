@@ -11,4 +11,4 @@ const errorHandler = (error: HttpError, req: Request, res: Response, next: NextF
   });
 };
 
-export default errorHandler as error;
+export default errorHandler;
