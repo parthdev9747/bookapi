@@ -5,7 +5,7 @@ import { createBook } from './bookController';
 const bookRouter = express.Router();
 
 bookRouter.post(
-  '/',
+  '/create',
   upload.fields([
     { name: 'coverImage', maxCount: 1 },
     { name: 'file', maxCount: 1 },

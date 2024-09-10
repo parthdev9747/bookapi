@@ -29,6 +29,7 @@
   "dependencies": {
     "@types/validatorjs": "^3.15.5",
     "bcrypt": "^5.1.1",
+    "cloudinary": "^2.4.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-errors": "^2.0.0",
