@@ -7,10 +7,7 @@ const bookModel = new mongoose.Schema<Book>(
       type: String,
       required: true,
     },
-    author: {
-      type: String,
-      required: true,
-    },
+    author: mongoose.Types.ObjectId,
     coverImage: {
       type: String,
       required: true,
