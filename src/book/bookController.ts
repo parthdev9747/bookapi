@@ -4,6 +4,39 @@ import createHttpError from 'http-errors';
 import bookModel from './bookModel';
 import { uploadToCloudinary, deleteFromCloudinary } from '../utils/functions';
 
+/**
+ * @swagger
+ * /books/create:
+ *   post:
+ *     summary: Create a new book
+ *     tags: [Books]
+ *     security:
+ *       - jwt: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               genre:
+ *                 type: string
+ *               coverImage:
+ *                 type: string
+ *                 format: binary
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: New book added successfully
+ *       400:
+ *         description: Invalid file upload or validation failed
+ *       500:
+ *         description: Error while creating book
+ */
 const createBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rules = {
@@ -57,6 +90,48 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+/**
+ * @swagger
+ * /books/update/{id}:
+ *   put:
+ *     summary: Update an existing book
+ *     tags: [Books]
+ *     security:
+ *       - jwt: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the book to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               genre:
+ *                 type: string
+ *               coverImage:
+ *                 type: string
+ *                 format: binary
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Book updated successfully
+ *       404:
+ *         description: Book not found
+ *       403:
+ *         description: Unauthorized
+ *       500:
+ *         description: Error updating book
+ */
 const updateBook = async (req: Request, res: Response, next: NextFunction) => {
   const { title, genre } = req.body;
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -119,6 +194,18 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+/**
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Retrieve a list of books
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: A list of books
+ *       500:
+ *         description: Error getting books
+ */
 const listBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const books = await bookModel.find();
@@ -129,6 +216,27 @@ const listBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+/**
+ * @swagger
+ * /books/{id}:
+ *   get:
+ *     summary: Retrieve a single book by ID
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the book to retrieve
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A single book
+ *       404:
+ *         description: Book not found
+ *       500:
+ *         description: Error getting book
+ */
 const singleBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const bookId = req.params.id;
@@ -145,6 +253,31 @@ const singleBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+/**
+ * @swagger
+ * /books/{id}:
+ *   delete:
+ *     summary: Delete a book by ID
+ *     tags: [Books]
+ *     security:
+ *       - jwt: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the book to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Book deleted successfully
+ *       404:
+ *         description: Book not found
+ *       403:
+ *         description: Unauthorized
+ *       500:
+ *         description: Error deleting book
+ */
 const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const bookId = req.params.id;

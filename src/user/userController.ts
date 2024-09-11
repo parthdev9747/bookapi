@@ -7,6 +7,38 @@ import jwt from 'jsonwebtoken';
 import { config } from '../config/config';
 import { User } from './userType';
 
+// Add Swagger documentation for createUser
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *     responses:
+ *       200:
+ *         description: User created successfully
+ *       400:
+ *         description: Email already exists or validation failed
+ *       500:
+ *         description: Internal server error
+ */
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Define validation rules
@@ -74,6 +106,37 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Add Swagger documentation for loginUser
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *       400:
+ *         description: User or password not match
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rules = {

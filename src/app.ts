@@ -3,11 +3,22 @@ import errorHandler from './middlewares/globalErrorHandler';
 import userRouter from './user/userRouter';
 import path from 'path';
 import bookRouter from './book/bookRouter';
+import cors from 'cors';
+import { config } from './config/config';
+import setupSwagger from './config/swagger';
 
 const app = express();
 
-app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+setupSwagger(app);
 
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+app.use(
+  cors({
+    origin: config.frontend_domain,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 //Routes
