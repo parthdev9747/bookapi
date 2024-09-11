@@ -84,9 +84,11 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
     let bookFile;
 
     if (files?.coverImage) {
+      await deleteFromCloudinary(book.coverImage, 'image');
       coverImage = await uploadToCloudinary(files.coverImage[0], 'book-cover');
     }
     if (files?.file) {
+      await deleteFromCloudinary(book.file, 'raw');
       bookFile = await uploadToCloudinary(files.file[0], 'book-pdf', 'raw');
     }
 
