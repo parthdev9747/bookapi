@@ -22,4 +22,20 @@ const uploadToCloudinary = async (
   return uploadResult;
 };
 
-export { uploadToCloudinary };
+const deleteFromCloudinary = async (fileName: string, resourceType: string = 'auto') => {
+  if (fileName) {
+    const spiltFile = fileName.split('/');
+    let cloudinaryFileName = '';
+    if (resourceType === 'raw') {
+      cloudinaryFileName = spiltFile.at(-2) + '/' + spiltFile.at(-1);
+    } else {
+      cloudinaryFileName = spiltFile.at(-2) + '/' + spiltFile.at(-1)?.split('.').at(-2);
+    }
+
+    await cloudinary.uploader.destroy(cloudinaryFileName, {
+      resource_type: resourceType as 'auto' | 'image' | 'video' | 'raw',
+    });
+  }
+};
+
+export { uploadToCloudinary, deleteFromCloudinary };
